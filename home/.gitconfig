@@ -1,0 +1,21 @@
+[user]
+name = Parashuram
+email = code@nparashuram.com
+[alias]
+lg = log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+stat = status
+[color]
+status = true
+[push]
+default = simple
+[core]
+autocrlf = true
+editor = nano
+[help]
+autocorrect = 1
+[diff]
+tool = winmerge
+[difftool]
+prompt = false
+[difftool "winmerge"]
+cmd = c:/PROGRA~2/WinMerge/winmergeu.exe -e -ub -x -wl -u -maximise -dl "base" -dr "mine" "$(cygpath -aw \"$LOCAL\")" "$(cygpath -aw \"$REMOTE\")"

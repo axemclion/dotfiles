@@ -1,0 +1,16 @@
+[{
+	"keys": ["ctrl+d"],
+	"command": "run_macro_file",
+	"args": {
+		"file": "res://Packages/Default/Delete Line.sublime-macro"
+	}
+}, {
+	"keys": ["ctrl+shift+d"],
+	"command": ""
+}, {
+	"keys": ["ctrl+shift+f"],
+	"command": "js_format"
+}, {
+	"keys": ["ctrl+shift+o"],
+	"command": "prompt_open_file"
+}, ]
