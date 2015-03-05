@@ -7,5 +7,7 @@
 		"Vintage"
 	],
 	"margin": 2,
-	"tab_size": 3
+	"tab_size": 3,
+	"color_scheme": "Packages/Theme - Cobalt2/cobalt2.tmTheme",
+	"theme": "Cobalt2.sublime-theme",
 }
