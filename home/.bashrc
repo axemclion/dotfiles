@@ -19,6 +19,8 @@ alias mv='mv -i'
 
 alias root='sudo su'
 
+alias subl="open -a /Applications/Sublime\ Text.app"
+
 export ANDROID_HOME=~/_workspace/_software/android-sdk-macosx
 
 export PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
