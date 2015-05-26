@@ -10,7 +10,6 @@ status = true
 default = simple
 [core]
 autocrlf = true
-editor = nano
 [help]
 autocorrect = 1
 [diff]
