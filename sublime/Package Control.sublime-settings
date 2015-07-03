@@ -1,5 +1,7 @@
 {
-	"installed_packages": [
+	"installed_packages":
+	[
+		"Babel",
 		"Color Highlighter",
 		"CSS Format",
 		"FixMyJS",
@@ -7,9 +9,13 @@
 		"Inc-Dec-Value",
 		"JsFormat",
 		"JSHint Gutter",
+		"JSX",
 		"LESS",
+		"LineEndings",
 		"MarkdownEditing",
+		"Oceanic Next Color Scheme",
 		"Origami",
+		"Package Control",
 		"SideBarEnhancements",
 		"SublimeCodeIntel",
 		"Tag",
