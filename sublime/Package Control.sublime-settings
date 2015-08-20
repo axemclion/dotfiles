@@ -1,15 +1,16 @@
 {
+	"in_process_packages":
+	[
+	],
 	"installed_packages":
 	[
 		"Babel",
 		"Color Highlighter",
 		"CSS Format",
 		"FixMyJS",
+		"HTML-CSS-JS Prettify",
 		"HTML5",
-		"Inc-Dec-Value",
-		"JsFormat",
 		"JSHint Gutter",
-		"JSX",
 		"LESS",
 		"LineEndings",
 		"MarkdownEditing",
