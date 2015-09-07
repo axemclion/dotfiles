@@ -9,8 +9,8 @@
 	"command": ""
 }, {
 	"keys": ["ctrl+shift+f"],
-	"command": "js_format"
+	"command": "htmlprettify"
 }, {
 	"keys": ["ctrl+shift+o"],
 	"command": "prompt_open_file"
-}, ]
+} ]
