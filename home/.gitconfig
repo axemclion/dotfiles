@@ -9,12 +9,8 @@ status = true
 [push]
 default = simple
 [core]
-autocrlf = true
+	autocrlf = input
+	pager = diff-so-fancy | less --tabs=1,5 -R
+	excludesfile = ~/.gitignore_global
 [help]
 autocorrect = 1
-[diff]
-tool = winmerge
-[difftool]
-prompt = false
-[difftool "winmerge"]
-cmd = c:/PROGRA~2/WinMerge/winmergeu.exe -e -ub -x -wl -u -maximise -dl "base" -dr "mine" "$(cygpath -aw \"$LOCAL\")" "$(cygpath -aw \"$REMOTE\")"
