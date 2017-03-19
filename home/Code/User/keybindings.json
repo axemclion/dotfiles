@@ -1,0 +1,21 @@
+// Place your key bindings in this file to overwrite the defaults
+[
+    {
+        "key": "cmd+shift+f",
+        "command": "editor.action.formatDocument",
+        "when": "editorHasDocumentFormattingProvider"
+    },
+    {
+        "key": "cmd+h",
+        "command": "workbench.view.search"
+    },
+    {
+        "key": "cmd+d",
+        "command": "editor.action.deleteLines",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "cmd+r",
+        "command": "workbench.action.tasks.build"
+    }
+]

@@ -1,0 +1,18 @@
+// Place your settings in this file to overwrite the default settings
+{
+    "explorer.openEditors.visible": 0,
+    "telemetry.enableTelemetry": false,
+    "explorer.autoReveal": true,
+    "workbench.welcome.enabled": false,
+    "window.zoomLevel": 0,
+    "workbench.activityBar.visible": true,
+    "java.errors.incompleteClasspath.severity": "ignore",
+    "editor.wordWrap": false,
+    "files.associations": {
+        "*.map": "json",
+        "*.bundle": "javascript"
+    },
+    "editor.tabSize": 2,
+    "workbench.colorTheme": "Visual Studio Dark",
+    "workbench.iconTheme": "vscode-great-icons"
+}
