@@ -3,7 +3,6 @@ export DEFAULT_USER=axemclion
 
 ZSH_THEME="agnoster"
 
-plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -13,20 +12,34 @@ export JAVA_HOME="$(/usr/libexec/java_home)"
 export PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
 export PATH=$PATH:~/_workspace/_software/npm/node_modules/bin
 export PATH=$PATH:./node_modules/.bin
+export PATH=$PATH:~/.gem/bin
 
 export GEM_HOME=~/.gem
 export GEM_PATH=~/.gem
 
-alias subl="open -a /Applications/Sublime\ Text.app"
-
 alias ll='ls -l'
 alias la='ls -A'
 alias ls='ls -GaFt'
-alias rm='rm -rf'
 alias cp='cp -i'
-alias mv='mv -i'
+alias simulator='open /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app'
 
 cd ~/_workspace
+
+function rm () {
+  local path
+  for path in "$@"; do
+    # ignore any arguments
+    if [[ "$path" = -* ]]; then :
+    else
+      local dst=${path##*/}
+      # append the time if necessary
+      while [ -e ~/.Trash/"$dst" ]; do
+        dst="$dst "$(/bin/date +%H-%M-%S)
+      done
+      /bin/mv "$path" ~/.Trash/"$dst"
+    fi
+  done
+}
 
 function adball()
 {
