@@ -1,16 +1,22 @@
 [user]
-name = Parashuram
-email = code@nparashuram.com
+	name = Parashuram
+	email = code@nparashuram.com
 [alias]
-lg = log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
-stat = status
+	lg = log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	stat = status
+	commit-over = commit --amend --no-edit
+	stash-all = stash save --include-untracked
+	prune = fetch --prune
 [color]
-status = true
+	status = true
 [push]
-default = simple
+	default = simple
 [core]
 	autocrlf = input
 	pager = diff-so-fancy | less --tabs=1,5 -R
-	excludesfile = ~/.gitignore_global
+	excludesfile = /Users/axemclion/.gitignore_global
+[status]
 [help]
-autocorrect = 1
+	autocorrect = 1
+[status]
+	showUntrackedFiles = true
