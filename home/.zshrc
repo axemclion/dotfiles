@@ -69,5 +69,6 @@ RPROMPT="%K{green} %n@%M %K{default}"
 # oculus
 alias oc_cast='adb shell am startservice -n com.oculus.horizon/com.oculus.horizon.service_media.OVRMediaService --es message_type com.oculus.horizon.START_LOCAL_STREAM --ez cast_option_www true'
 alias oc_on='adb shell am broadcast -a com.oculus.vrpowermanager.prox_close'
- 
+alias oc_type='adb shell am broadcast -a com.oculus.vrshell.intent.action.SEND_KEYS -n com.oculus.vrshell/.ShellControlBroadcastReceiver -e input_type "text" -e input_keys "$1"'
+
 
