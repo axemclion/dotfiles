@@ -71,4 +71,9 @@ alias oc_cast='adb shell am startservice -n com.oculus.horizon/com.oculus.horizo
 alias oc_on='adb shell am broadcast -a com.oculus.vrpowermanager.prox_close'
 alias oc_type='adb shell am broadcast -a com.oculus.vrshell.intent.action.SEND_KEYS -n com.oculus.vrshell/.ShellControlBroadcastReceiver -e input_type "text" -e input_keys "$1"'
 
-
+function oc_pass() {
+  adb root
+  read -s oculus_input_password
+  R = $(adb shell am broadcast -a com.oculus.vrshell.intent.action.SEND_KEYS -n com.oculus.vrshell/.ShellControlBroadcastReceiver -e input_type "text" -e input_keys "$oculus_input_password")
+  unset oculus_input_password
+}
