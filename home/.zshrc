@@ -1,7 +1,25 @@
 export DEFAULT_USER=axemclion
-ZSH_THEME="agnoster"
+
+export HISTFILE=~/.zsh_history
+HISTSIZE=5000
+SAVEHIST=5000
+HISTDUP=erase
+
+setopt appendhistory
+setopt sharehistory
+setopt incappendhistory
+
+setopt APPEND_HISTORY
+setopt SHARE_HISTORY
+setopt INC_APPEND_HISTORY
+setopt HIST_EXPIRE_DUPS_FIRST
+
 setopt HIST_IGNORE_DUPS
 setopt HIST_FIND_NO_DUPS
+setopt HIST_REDUCE_BLANKS
+
+bindkey "^[[A" history-search-backward
+bindkey "^[[B" history-search-forward
 
 bindkey "^[[A" history-search-backward
 bindkey "^[[B" history-search-forward
