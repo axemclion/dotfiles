@@ -1,4 +1,3 @@
-
 # Axe's zshrc
 HISTSIZE=5000
 SAVEHIST=5000
@@ -46,19 +45,24 @@ alias ls='ls -GaFt'
 alias cp='cp -i'
 
 # Trash RM
-mkdir ~/.Trash
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    TRASH=~/.local/share/Trash/files
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+    TRASH=~/.Trash
+fi
+
+mkdir -p "$TRASH"
+
 function rm () {
   local path
   for path in "$@"; do
-    # ignore any arguments
     if [[ "$path" = -* ]]; then :
     else
       local dst=${path##*/}
-      # append the time if necessary
-      while [ -e ~/.Trash/"$dst" ]; do
+      while [ -e "$TRASH"/"$dst" ]; do
         dst="$dst "$(/bin/date +%H-%M-%S)
       done
-      /bin/mv "$path" ~/.Trash/"$dst"
+      /bin/mv "$path" "$TRASH"/"$dst"
     fi
   done
 }
