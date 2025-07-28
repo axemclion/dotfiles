@@ -44,29 +44,6 @@ alias la='ls -A'
 alias ls='ls -GaFt'
 alias cp='cp -i'
 
-# Trash RM
-if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-    TRASH=~/.local/share/Trash/files
-elif [[ "$OSTYPE" == "darwin"* ]]; then
-    TRASH=~/.Trash
-fi
-
-mkdir -p "$TRASH"
-
-function rm () {
-  local path
-  for path in "$@"; do
-    if [[ "$path" = -* ]]; then :
-    else
-      local dst=${path##*/}
-      while [ -e "$TRASH"/"$dst" ]; do
-        dst="$dst "$(/bin/date +%H-%M-%S)
-      done
-      /bin/mv "$path" "$TRASH"/"$dst"
-    fi
-  done
-}
-
 export PATH="/usr/local/sbin:$PATH"
 
 # node
@@ -107,3 +84,22 @@ alias oc_type='adb shell am broadcast -a com.oculus.vrshell.intent.action.SEND_K
 
 # iOS
 alias simulator='open /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app'
+
+
+# Trash RM
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  TRASH=~/.Trash
+  function rm () {
+    local path
+    for path in "$@"; do
+      if [[ "$path" = -* ]]; then :
+      else
+        local dst=${path##*/}
+        while [ -e "$TRASH"/"$dst" ]; do
+          dst="$dst "$(/bin/date +%H-%M-%S)
+        done
+        /bin/mv "$path" "$TRASH"/"$dst"
+      fi
+    done
+  }
+fi
