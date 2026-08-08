@@ -34,8 +34,17 @@ if [[ -n "$ZSH_VERSION" ]]; then
   setopt HIST_IGNORE_DUPS
   setopt HIST_FIND_NO_DUPS
 
+  
   bindkey "^[[A" history-search-backward
   bindkey "^[[B" history-search-forward
+
+  # macOS Native Standard: Option + Arrows to skip words
+  bindkey '^[[1;3D' backward-word       # Option + Left
+  bindkey '^[[1;3C' forward-word        # Option + Right
+
+  # macOS Native Standard: Command + Arrows to jump to start/end of line
+  bindkey '^[[1;9D' beginning-of-line   # Command + Left
+  bindkey '^[[1;9C' end-of-line         # Command + Right
 
 fi
 
