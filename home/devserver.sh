@@ -17,13 +17,21 @@ set -u
 # Each process needs a matching entry (same index) in every array below.
 # ============================================================================
 
-PROC_NAMES=(smbd comfyui ollama http-storage vibecomics)
+PROC_NAMES=(smbd comfyui ollama rustfs vibecomics)
 PROC_LABEL=(
-  "Samba (smbd) - ~/data/podcasts"
+  "Samba (smbd)"
   "ComfyUI"
   "Ollama"
-  "VibeComics http-storage"
+  "RustFS (S3 storage)"
   "VibeComics dev server"
+)
+# The data folder each process owns, shown in its own column (blank if none).
+PROC_FOLDER=(
+  "~/data/podcasts"
+  ""
+  ""
+  "~/data/rustfs"
+  ""
 )
 # Log file per process, as requested: /tmp/<process_name>.log
 PROC_LOG=()
@@ -35,7 +43,7 @@ PROC_MATCH=(
   "smbd -F --no-process-group"
   "_workspace/comfyui/ComfyUI/main.py"
   "ollama serve"
-  "http-storage/dist/http-storage.mjs"
+  "/usr/bin/rustfs server"
   "node_modules/vite/bin/vite.js"
 )
 
@@ -44,7 +52,7 @@ PROC_PORTS=(
   "139 445"
   "8188"
   "11434"
-  "8081"
+  "9000 9001"
   "8080"
 )
 
@@ -52,10 +60,11 @@ PROC_PORTS=(
 PROC_SUDO=(1 0 0 0 0)
 
 # Function that starts the process (defined below). Called with no args.
-PROC_START=(start_smbd start_comfyui start_ollama start_http_storage start_vibecomics)
+PROC_START=(start_smbd start_comfyui start_ollama start_rustfs start_vibecomics)
 
 VIBE_DIR="$HOME/_workspace/vibecomics"
 COMFY_DIR="$HOME/_workspace/comfyui"
+RUSTFS_DATA_DIR="$HOME/data/rustfs"
 
 # ============================================================================
 # START FUNCTIONS
@@ -95,14 +104,21 @@ start_ollama() {
   disown
 }
 
-start_http_storage() {
-  node "$VIBE_DIR/scripts/build-http-storage.mjs" >>"${PROC_LOG[3]}" 2>&1
+# RustFS: S3-compatible storage for VibeComics. Root
+# access key/secret are required by RustFS itself - must match whatever is used to connect
+# the app (its connect screen, or scripts/configure-s3-bucket.mjs's connection string).
+# No global CORS flag exists in 1.0.1 (checked `rustfs server --help` directly) - CORS is
+# applied per bucket instead, via scripts/configure-s3-bucket.mjs in the vibecomics repo.
+start_rustfs() {
+  mkdir -p "$RUSTFS_DATA_DIR"
   (
-    cd "$VIBE_DIR" || exit 1
-    export HTTP_STORAGE_PATH="$HOME/data/vibecomics-data"
-    export HTTP_STORAGE_PORT=8081
-    export HTTP_STORAGE_HOST=0.0.0.0
-    exec node "$VIBE_DIR/http-storage/dist/http-storage.mjs"
+    export RUSTFS_ACCESS_KEY="changeme"
+    export RUSTFS_SECRET_KEY="changeme"
+    export RUSTFS_VOLUMES="$RUSTFS_DATA_DIR"
+    export RUSTFS_ADDRESS=":9000"
+    export RUSTFS_CONSOLE_ENABLE=true
+    export RUSTFS_CONSOLE_ADDRESS=":9001"
+    exec /usr/bin/rustfs server
   ) >>"${PROC_LOG[3]}" 2>&1 &
   disown
 }
@@ -253,7 +269,7 @@ gpu_summary() {
 
 CACHE_HEADER1=""
 CACHE_HEADER2=""
-CACHE_ROW=()   # one pre-formatted "box label pid cpu rss gpu ports" line per process
+CACHE_ROW=()   # one pre-formatted "box label folder pid cpu rss gpu ports" line per process
 
 refresh_stats() {
   CACHE_HEADER1="server.sh - $(date '+%Y-%m-%d %H:%M:%S')"
@@ -262,8 +278,8 @@ refresh_stats() {
   for i in "${!PROC_NAMES[@]}"; do
     read -r pid cpu rss gpu < <(proc_stats "$i")
     box="[ ]"; [[ "$pid" != "-" ]] && box="[x]"
-    CACHE_ROW[$i]=$(printf "%-4s %-28s %-22s %6s %9s %8s %-14s" \
-      "$box" "${PROC_LABEL[$i]}" "$pid" "$cpu" "$rss" "$gpu" "$(ports_display "$i")")
+    CACHE_ROW[$i]=$(printf "%-4s %-22s %-18s %-22s %6s %9s %8s %-14s" \
+      "$box" "${PROC_LABEL[$i]}" "${PROC_FOLDER[$i]}" "$pid" "$cpu" "$rss" "$gpu" "$(ports_display "$i")")
   done
 }
 
@@ -273,8 +289,8 @@ render() {
   printf '%s\033[K\n' "$CACHE_HEADER1"
   printf '%s\033[K\n' "$CACHE_HEADER2"
   printf '\033[K\n'
-  printf "    %-4s %-28s %-22s %6s %9s %8s %-14s\033[K\n" "   " "PROCESS" "PID(S)" "CPU%" "RAM(MiB)" "GPU(MiB)" "PORTS"
-  printf '%s\033[K\n' "----------------------------------------------------------------------------------------------"
+  printf "    %-4s %-22s %-18s %-22s %6s %9s %8s %-14s\033[K\n" "   " "PROCESS" "FOLDER" "PID(S)" "CPU%" "RAM(MiB)" "GPU(MiB)" "PORTS"
+  printf '%s\033[K\n' "------------------------------------------------------------------------------------------------------------"
   local i
   for i in "${!PROC_NAMES[@]}"; do
     if [[ "$i" == "$cursor" ]]; then
